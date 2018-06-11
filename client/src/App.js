@@ -11,9 +11,6 @@ class App extends Component {
         return (
             <Router>
                 <div>
-                    <nav>
-                        <TopBar />
-                    </nav>
                     <main style={{marginTop:75}}>
                         <Route exact path="/login" component={LoginPage} />
                         <Route exact path="/signup" component={SignupPage} />
