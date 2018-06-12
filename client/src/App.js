@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import LoginPage from './containers/LoginPage'
 import SignupPage from './containers/SignupPage'
 import Page from './containers/Page'
+import ClassSpec from './components/ClassSpec'
 import './App.css';
 
 class App extends Component {
@@ -15,6 +16,7 @@ class App extends Component {
                         <Route exact path="/login" component={LoginPage} />
                         <Route exact path="/signup" component={SignupPage} />
                         <Route exact path="/home" component={Page} />
+                        <Route exact path="/batch" component={ClassSpec} />
                         <Route exact path="/" render={ () => <Redirect to="/home" /> } />
                     </main>
                 </div>
