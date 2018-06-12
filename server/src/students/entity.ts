@@ -21,7 +21,10 @@ export default class Student extends BaseEntity {
     @Column('text')
     picture: string
 
-    @IsNumber()
+    @IsString()
     @Column('text')
-    batchId: number
+    batchId: string
+
+    @Column('text', {nullable:true})
+    lastRating: string
 }

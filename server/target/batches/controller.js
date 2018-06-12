@@ -33,7 +33,6 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], BatchController.prototype, "createStudent", null);
 __decorate([
-    routing_controllers_1.Authorized(),
     routing_controllers_1.Get('/batches/:id([0-9]+)'),
     __param(0, routing_controllers_1.Param('id')),
     __metadata("design:type", Function),
@@ -41,7 +40,6 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], BatchController.prototype, "getUser", null);
 __decorate([
-    routing_controllers_1.Authorized(),
     routing_controllers_1.Get('/batches'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),

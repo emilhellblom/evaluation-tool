@@ -35,10 +35,14 @@ __decorate([
     __metadata("design:type", String)
 ], Student.prototype, "picture", void 0);
 __decorate([
-    class_validator_1.IsNumber(),
+    class_validator_1.IsString(),
     typeorm_1.Column('text'),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Student.prototype, "batchId", void 0);
+__decorate([
+    typeorm_1.Column('text', { nullable: true }),
+    __metadata("design:type", String)
+], Student.prototype, "lastRating", void 0);
 Student = __decorate([
     typeorm_1.Entity()
 ], Student);

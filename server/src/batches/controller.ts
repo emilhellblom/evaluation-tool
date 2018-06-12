@@ -11,7 +11,7 @@ export default class BatchController {
         return batches.save()
     }
 
-    @Authorized()
+    // @Authorized()
     @Get('/batches/:id([0-9]+)')
     getUser(
         @Param('id') id: number
@@ -19,7 +19,7 @@ export default class BatchController {
         return Batches.findOneById(id)
     }
 
-    @Authorized()
+    // @Authorized()
     @Get('/batches')
     allUsers() {
         return Batches.find()

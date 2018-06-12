@@ -8,6 +8,11 @@ export default class Batch extends BaseEntity {
     id?: number
 
     @IsString()
+    @MinLength(1)
+    @Column('text')
+    batchId: string
+
+    @IsString()
     @MinLength(2)
     @Column('text')
     startDate: string

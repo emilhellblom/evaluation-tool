@@ -19,6 +19,12 @@ __decorate([
 ], Batch.prototype, "id", void 0);
 __decorate([
     class_validator_1.IsString(),
+    class_validator_1.MinLength(1),
+    typeorm_1.Column('text'),
+    __metadata("design:type", String)
+], Batch.prototype, "batchId", void 0);
+__decorate([
+    class_validator_1.IsString(),
     class_validator_1.MinLength(2),
     typeorm_1.Column('text'),
     __metadata("design:type", String)

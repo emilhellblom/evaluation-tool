@@ -5,10 +5,10 @@ export const ADD_STUDENT_SUCCESS = 'ADD_STUDENT_SUCCESS'
 export const ADD_STUDENT_FAILED = 'ADD_STUDENT_FAILED'
 
 export const addStudent = (firstName, lastName, picture, batchId) => (dispatch) => {
-    console.log(firstName, lastName, picture, batchId)
+    console.log(typeof batchId)
 	request
 		.post(`${baseUrl}/students`)
-		.send({ firstName, lastName, picture, batchId })
+		.send({ firstName, lastName, picture, batchId, lastRating: null })
 		.then(result => {
 			dispatch({
 				type: ADD_STUDENT_SUCCESS
