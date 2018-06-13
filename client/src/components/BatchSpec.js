@@ -5,6 +5,7 @@ import AddStudent from './AddStudent'
 import {addStudent} from '../actions/students'
 import * as request from 'superagent'
 import {baseUrl} from '../constants'
+import {Redirect, Link} from 'react-router-dom'
 
 class BatchSpec extends Component {
     state = {
@@ -13,11 +14,12 @@ class BatchSpec extends Component {
         currentBatch: null
     }
 
-    componentDidMount() {
-        request
-        .get(`${baseUrl}/students`)
-        .then(result => this.setState({students: result.body}))
-        this.setState({currentBatch: this.props.match.params.id})
+    async componentDidMount() {
+        const result = await request.get(`${baseUrl}/students`)
+        this.setState({
+            students: result.body,
+            currentBatch: this.props.match.params.id
+        })
     }
 
     handleSubmit = (student) => {
@@ -39,8 +41,8 @@ class BatchSpec extends Component {
                     {this.state.students.map(student => (
                         (student.batchId === this.state.currentBatch) &&
                             <div key={`student #${student.id}`}>
-                                <img src={student.pictureUrl} alt={`${student.firstName} ${student.lastName}`}/>
-                                <h2>{student.firstName} {student.lastName}</h2>
+                                <Link to={`/students/${student.id}`}><img src={student.pictureUrl} alt={`${student.firstName} ${student.lastName}`}/></Link>
+                                <Link to={`/students/${student.id}`}><h2>{student.firstName} {student.lastName}</h2></Link>
                                 {student.rating && <div className={`latest-color-${student.rating}`}></div>}
                                 {!student.rating && <h3>This student has not yet received a rating</h3>}
                             </div>
