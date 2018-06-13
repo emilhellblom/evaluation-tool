@@ -1,4 +1,4 @@
-import { JsonController, Post, Param, Get, Body, Authorized } from 'routing-controllers'
+import { JsonController, Post, Param, Get, Body, Put, Authorized } from 'routing-controllers'
 import Student from './entity';
 
 @JsonController()
@@ -9,6 +9,17 @@ export default class StudentController {
         @Body() students: Student
     ) {
         return students.save()
+    }
+
+    @Put('/students/:id([0-9]+)')
+    async updateStudent(
+      @Param('id') id: number,
+      @Body() update: Partial<Student>
+    ) {
+      const student = await Student.findOneById(id)
+      console.log('Does anything happen here???????// sdgsd/g/sdg/sd/gs/dg/')
+      student.lastRating = update.lastRating
+      return student.save()
     }
 
     // @Authorized()

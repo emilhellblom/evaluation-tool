@@ -4,7 +4,6 @@ export default class AddBatch extends Component {
     state = {}
 
     handleSubmit = (e) => {
-		e.preventDefault()
 		this.props.onSubmit(this.state)
 	}
 

@@ -1,17 +1,34 @@
-.latest-color-red {
+.latest-color-Red {
     width: 15px;
     height: 15px;
     background-color: red;
 }
 
-.latest-color-yellow {
+.latest-color-Yellow {
     width: 15px;
     height: 15px;
     background-color: yellow;
 }
 
-.latest-color-green {
+.latest-color-Green {
     width: 15px;
     height: 15px;
     background-color: green;
+}
+
+.rating-Yellow, .rating-Red, .rating-Green {
+    width: 15px;
+    height: 15px;
+}
+
+.rating-Yellow {
+    background-color: yellow
+}
+
+.rating-Red {
+    background-color: red
+}
+
+.rating-Green {
+    background-color: green
 }
