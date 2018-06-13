@@ -14,53 +14,55 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const routing_controllers_1 = require("routing-controllers");
 const entity_1 = require("./entity");
-let StudentController = class StudentController {
-    createStudent(students) {
-        return students.save();
+let RatingController = class RatingController {
+    createRating(ratings) {
+        return ratings.save();
     }
-    async updateStudent(id, update) {
-        const student = await entity_1.default.findOneById(id);
+    async updateRating(id, update) {
+        const rating = await entity_1.default.findOneById(id);
         console.log('Does anything happen here???????// sdgsd/g/sdg/sd/gs/dg/');
-        student.lastRating = update.lastRating;
-        return student.save();
+        rating.color = update.color;
+        rating.remark = update.remark;
+        rating.date = update.date;
+        return rating.save();
     }
-    getStudent(id) {
+    getRatings(id) {
         return entity_1.default.findOneById(id);
     }
-    allStudents() {
+    allRatings() {
         return entity_1.default.find();
     }
 };
 __decorate([
-    routing_controllers_1.Post('/students'),
+    routing_controllers_1.Post('/ratings'),
     __param(0, routing_controllers_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [entity_1.default]),
     __metadata("design:returntype", void 0)
-], StudentController.prototype, "createStudent", null);
+], RatingController.prototype, "createRating", null);
 __decorate([
-    routing_controllers_1.Put('/students/:id([0-9]+)'),
+    routing_controllers_1.Put('/ratings/:id([0-9]+)'),
     __param(0, routing_controllers_1.Param('id')),
     __param(1, routing_controllers_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", Promise)
-], StudentController.prototype, "updateStudent", null);
+], RatingController.prototype, "updateRating", null);
 __decorate([
-    routing_controllers_1.Get('/students/:id([0-9]+)'),
+    routing_controllers_1.Get('/ratings/:id([0-9]+)'),
     __param(0, routing_controllers_1.Param('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
-], StudentController.prototype, "getStudent", null);
+], RatingController.prototype, "getRatings", null);
 __decorate([
-    routing_controllers_1.Get('/students'),
+    routing_controllers_1.Get('/ratings'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
-], StudentController.prototype, "allStudents", null);
-StudentController = __decorate([
+], RatingController.prototype, "allRatings", null);
+RatingController = __decorate([
     routing_controllers_1.JsonController()
-], StudentController);
-exports.default = StudentController;
+], RatingController);
+exports.default = RatingController;
 //# sourceMappingURL=controller.js.map

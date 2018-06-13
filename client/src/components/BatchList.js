@@ -7,7 +7,7 @@ export default class BatchList extends Component {
 
         const students = []
         studentList.map(student => {
-            if (student.batchId === batch.id) students.push(student.id)
+            if (student.batchId === batch.batchId) students.push(student.id)
         })
         return students.length
     }
