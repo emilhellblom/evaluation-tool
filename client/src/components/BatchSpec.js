@@ -11,7 +11,8 @@ class BatchSpec extends Component {
     state = {
         addOption: false,
         students: [],
-        currentBatch: null
+        currentBatch: null,
+        return: null
     }
 
     async componentDidMount() {
@@ -57,7 +58,10 @@ class BatchSpec extends Component {
 
     handleSubmit = (student) => {
         this.props.addStudent(student.firstName, student.lastName, student.pictureUrl, this.state.currentBatch)
-        this.setState({addOption: false})
+        this.setState({
+            addOption: false,
+            return: true
+        })
     }
 
     showAddOption = () => {
@@ -120,6 +124,10 @@ class BatchSpec extends Component {
 
     
     render() {
+
+        if (this.state.return) return (
+			<Redirect to={`/home`} />
+        )
 
         if (!this.props.authenticated) return (
             <Redirect to="/login" />
