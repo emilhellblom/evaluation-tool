@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import './BatchSpec.css'
+import './StudentSpec.css'
 import {connect} from 'react-redux'
 import * as request from 'superagent'
 import {baseUrl} from '../constants'
@@ -17,7 +17,12 @@ class StudentSpec extends Component {
         batchClassmates: [],
         date: today,
         editStudent: false,
-        confirmationDelete: false
+        confirmationDelete: false,
+        return: null,
+        ratingOfTheDay: null,
+        colorRating: null,
+        totalRatings: null,
+        dateOfRatings: null
     }
 
     // componentDidMount() {
@@ -55,9 +60,17 @@ class StudentSpec extends Component {
         const {name, value} = event.target
         console.log(name, value)
 
-        this.setState({
-        [name]: value
-        })
+        if (this.state.dateOfRatings.includes(value)) {
+            this.setState({
+                [name]: value,
+                ratingOfTheDay: true
+            })
+        } else {
+            this.setState({
+            [name]: value,
+            ratingOfTheDay: false
+            })
+        }
     }
 
     handleOptionChange = color => {
@@ -92,12 +105,17 @@ class StudentSpec extends Component {
         } catch (e) {
             console.log('Error: ', e)
         }
+
         if (this.state.totalRatings) {
+            let dateOfRatings = []
+            
             this.state.totalRatings.forEach(rating => {
+                dateOfRatings.push(rating.date)
                 if (rating.date === today) {
                     this.setState({ratingOfTheDay: true})
                 }
             })
+            this.setState({dateOfRatings})
         }
         // students.map((student, index) => {
         //     if (student.id === this.state.currentStudent.id) {
@@ -148,7 +166,7 @@ class StudentSpec extends Component {
             <div className='student-page'>
                 {this.state.currentStudent &&
                 <div className='student-header'>
-                    <div>
+                    <div className='header-link-div'>
                         <Link to={`/batch/${this.state.currentStudent.batchId}`}><h1>Batch #{this.state.currentStudent.batchId}</h1></Link>
                         {this.state.editStudent !== true && <button onClick={this.showEditStudent}>Edit student</button>}
                         {this.state.editStudent === true && <AddStudent type={'Edit'} onSubmit={this.handleEditSubmit}/>}
@@ -164,12 +182,13 @@ class StudentSpec extends Component {
                         <h2>{this.state.currentStudent.firstName}</h2>
                         <h2>{this.state.currentStudent.lastName}</h2>
                     </div>
-                    <img />
+                    <img className='student-spec-img' src={this.state.currentStudent.picture}/>
                 </div>
                 }
                 {this.state.totalRatings && 
-                    <div>
-                        <h3>Ten latest ratings</h3>
+                    <div className='student-ratings-div'>
+                        <h3 className='student-ratings-header'>Ten latest ratings</h3>
+                        <div className='student-ratings-bar'>
                         {tenRatings.map(rating => (
                             <Link key={`rating-history-${rating.id}`} to={`/ratings/${rating.id}`}>
                                 <div className={`rating-${rating.color}`}>
@@ -177,36 +196,40 @@ class StudentSpec extends Component {
                                 </div>
                             </Link>
                         ))}
+                        </div>
                     </div>
                 }
-                {!this.state.ratingOfTheDay && 
                     <div className='evaluation-div'>
-                        <form onSubmit={this.handleSubmit}>
-                            <div>
+                        <form className='evaluation-form' onSubmit={this.handleSubmit}>
+                            <div className='date-field'>
                                 <label htmlFor="date">Date</label>
                                 <input type="date" name="date" id="date" value={
                                     this.state.date || today
                                 } onChange={ this.handleChange } />
                             </div>
+                            {!this.state.ratingOfTheDay && 
+                                <div className='input-fields'>
 
-                            <div>
-                                <label htmlFor="text">Remarks</label>
-                                <input type="text" name="text" id="text" value={
-                                    this.state.text || ''
-                                } onChange={ this.handleChange } />
-                            </div>
+                                    <div className='remarks-field'>
+                                        <label htmlFor="text">Remarks</label>
+                                        <input type="text" name="text" id="text" value={
+                                            this.state.text || ''
+                                        } onChange={ this.handleChange } />
+                                    </div>
 
-                            {colors.map(color => (
-                                <div key={`Rating: ${color}`}>
-                                    <label htmlFor="rating">{color}</label>
-                                    <input type="radio" name="color" id={color} checked={this.state.color} onChange={() => this.handleOptionChange(color)} />
+                                    <div className='color-picker'>
+                                        {colors.map(color => (
+                                            <div className={`pick-${color}`} key={`Rating: ${color}`}>
+                                                <input type="radio" name="color" id={color} checked={this.state.color} onChange={() => this.handleOptionChange(color)} />
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
-                            ))}
-                            <button type="submit">Save</button>                    
+                            }
+                            <button className='save-button' type="submit">Save</button>                    
                         </form>
                     {/* <button onClick={() => this.props.history.push(`/students/${this.state.nextStudent}`)}>Save and Next</button> */}
                     </div>
-                }
             </div>
         )
     }

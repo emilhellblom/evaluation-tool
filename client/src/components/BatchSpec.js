@@ -26,6 +26,33 @@ class BatchSpec extends Component {
             currentBatch,
             ratings
         })
+        if (this.state.ratings) this.calcBar()
+    }
+
+    calcBar = () => {
+        const {ratings} = this.state
+        let redColors = []
+        let yellowColors = []
+        let greenColors = []
+
+        ratings.forEach(color => {
+            if (color === 'Red') redColors.push(color)
+            if (color === 'Yellow') yellowColors.push(color)
+            if (color === 'Green') greenColors.push(color)
+        })
+
+        const onePercent = ratings.length / 100
+        const redPercentage = redColors.length / onePercent
+        const yellowPercentage = yellowColors.length / onePercent
+        const greenPercentage = greenColors.length / onePercent
+
+        this.setState({
+            percentages: {
+                red: {width: redPercentage.toFixed(2) + '%'},
+                yellow: {width: yellowPercentage.toFixed(2) + '%'},
+                green: {width: greenPercentage.toFixed(2) + '%'},
+            }
+        })
     }
 
     handleSubmit = (student) => {
@@ -99,21 +126,29 @@ class BatchSpec extends Component {
         )
 
         console.log(this.state)
-        const {randomStudent, ratings, students, currentBatch, addOption} = this.state
+        const {randomStudent, ratings, students, currentBatch, addOption, percentages} = this.state
         return (
             <div className='batch-page'>
                 <Link to='/home'><button>Home</button></Link>
                 <h1>Batch #{currentBatch}</h1>
-                <div className='color-standings'></div>
-                <div>
+                {percentages && 
+                    <div className='color-standings'>
+                        <div className='red-part-bar' style={percentages.red}></div>
+                        <div className='yellow-part-bar' style={percentages.yellow}></div>
+                        <div className='green-part-bar' style={percentages.green}></div>
+                    </div>
+                }
+                <div className='student-list'>
                     {students.map(student => (
                         (student.batchId === currentBatch) &&
-                            <div key={`student #${student.id}`}>
-                                <Link to={`/students/${student.id}`}><img src={student.pictureUrl} alt={`${student.firstName} ${student.lastName}`}/></Link>
-                                <Link to={`/students/${student.id}`}><h2>{student.firstName} {student.lastName}</h2></Link>
-                                {student.lastRating && <div className={`latest-color-${student.lastRating}`}></div>}
-                                {!student.lastRating && <h3>This student has not yet received a rating</h3>}
-                            </div>
+                            <Link to={`/students/${student.id}`}>
+                                <div className='student-card' key={`student #${student.id}`}>
+                                    <img className='student-card-image' src={student.picture} alt={`${student.firstName} ${student.lastName}`}/>
+                                    <h2 className='student-card-name'>{student.firstName} {student.lastName}</h2>
+                                    {student.lastRating && <div className={`latest-color-${student.lastRating}`}></div>}
+                                    {!student.lastRating && <h3 className='student-card-message'>This student has not yet received a rating</h3>}
+                                </div>
+                            </Link>
                     ))}
                 </div>
                 {ratings && ratings.includes('Red', 'Yellow', 'Green') && 

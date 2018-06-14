@@ -1,0 +1,108 @@
+.header-link-div {
+    display: flex;
+    flex-direction: column;
+}
+
+.student-header {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.student-spec-img {
+    height: 220px;
+    width: 150px;
+}
+
+.student-ratings-header {
+    font-size: 150%;
+}
+
+.student-ratings-bar {
+    display: flex;
+}
+
+.rating-Yellow, .rating-Red, .rating-Green {
+    width: 25px;
+    height: 25px;
+}
+
+.rating-Yellow {
+    background-color: yellow
+}
+
+.rating-Red {
+    background-color: red
+}
+
+.rating-Green {
+    background-color: green
+}
+
+.evaluation-form {
+    display: flex;
+    flex-direction: column;
+    height: 50vh;
+}
+
+.input-fields {
+    display: flex;
+    justify-content: space-between;
+}
+
+.remarks-field {
+    width: 40vw;
+    height: 30vh;
+}
+
+.color-picker {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-end;
+    align-content: space-between;
+    width: 40vw;
+    margin-right: 5vw;
+}
+
+.pick-Red, .pick-Yellow, .pick-Green {
+    border-radius: 25px;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    margin: 5px;
+}
+
+.pick-Red {
+    background-color: red;
+}
+
+.pick-Yellow {
+    background-color: yellow;
+}
+
+.pick-Green {
+    background-color: green;
+}
+
+[type="radio"]:not(:checked), [type="radio"]:checked {
+    height: 15px;
+    width: 15px;
+    position: relative;
+    left: 0;
+    margin: 5px;
+    z-index: 2;
+    opacity: 1;
+}
+
+.date-field {
+    width: 50vw;
+}
+
+
+.save-button {
+    width: 40vw;
+    align-self: center;
+}
