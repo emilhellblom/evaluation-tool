@@ -20,15 +20,26 @@ let StudentController = class StudentController {
     }
     async updateStudent(id, update) {
         const student = await entity_1.default.findOneById(id);
-        console.log('Does anything happen here???????// sdgsd/g/sdg/sd/gs/dg/');
-        student.lastRating = update.lastRating;
-        return student.save();
+        if (update.lastRating) {
+            student.lastRating = update.lastRating;
+            return student.save();
+        }
+        else {
+            student.firstName = update.firstName;
+            student.lastName = update.lastName;
+            student.picture = update.picture;
+            return student.save();
+        }
     }
     getStudent(id) {
         return entity_1.default.findOneById(id);
     }
     allStudents() {
         return entity_1.default.find();
+    }
+    deleteStudent(id) {
+        console.log(id);
+        return entity_1.default.removeById(id);
     }
 };
 __decorate([
@@ -59,6 +70,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], StudentController.prototype, "allStudents", null);
+__decorate([
+    routing_controllers_1.Delete('/students/:id([0-9]+)'),
+    __param(0, routing_controllers_1.Param('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", void 0)
+], StudentController.prototype, "deleteStudent", null);
 StudentController = __decorate([
     routing_controllers_1.JsonController()
 ], StudentController);

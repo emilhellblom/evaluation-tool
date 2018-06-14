@@ -19,7 +19,7 @@ class BatchSpec extends Component {
         const currentBatch = this.props.match.params.id
         const filteredStudents = result.body.filter(student => (student.batchId === currentBatch))
         let ratings = [] 
-        filteredStudents.map(student => {if (student.lastRating) ratings.push(student.lastRating)})
+        filteredStudents.forEach(student => {if (student.lastRating) ratings.push(student.lastRating)})
 
         this.setState({
             students: filteredStudents,
@@ -91,11 +91,18 @@ class BatchSpec extends Component {
             
     }
 
+    
     render() {
+
+        if (!this.props.authenticated) return (
+            <Redirect to="/login" />
+        )
+
         console.log(this.state)
         const {randomStudent, ratings, students, currentBatch, addOption} = this.state
         return (
             <div className='batch-page'>
+                <Link to='/home'><button>Home</button></Link>
                 <h1>Batch #{currentBatch}</h1>
                 <div className='color-standings'></div>
                 <div>
@@ -118,11 +125,15 @@ class BatchSpec extends Component {
                 }
                 <div>
                     {addOption !== true && <button onClick={this.showAddOption}>Add student</button>}
-                    {addOption === true && <AddStudent onSubmit={this.handleSubmit}/>}
+                    {addOption === true && <AddStudent type={'Add'} onSubmit={this.handleSubmit}/>}
                 </div>
             </div>
         )
     }
 }
 
-export default connect(null, {addStudent})(BatchSpec)
+const mapStateToProps = state => ({
+        authenticated: state.currentUser !== null,
+    })
+
+export default connect(mapStateToProps, {addStudent})(BatchSpec)

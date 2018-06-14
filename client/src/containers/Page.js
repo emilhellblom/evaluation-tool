@@ -40,9 +40,8 @@ class Page extends Component {
 
     render() {
         console.log(this.state)
-        const {authenticated} = this.props
 
-        if (!authenticated) return (
+        if (!this.props.authenticated) return (
 			<Redirect to="/login" />
         )
         

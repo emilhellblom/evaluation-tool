@@ -5,6 +5,8 @@ import * as request from 'superagent'
 import {baseUrl} from '../constants'
 import {Redirect, Link} from 'react-router-dom'
 import {addRating, updateLastRating} from '../actions/ratings'
+import {editStudent, deleteStudent} from '../actions/students'
+import AddStudent from './AddStudent'
 
 const today = new Date().toISOString().substr(0, 10);
 
@@ -13,7 +15,9 @@ class StudentSpec extends Component {
         // addOption: false,
         currentStudent: null,
         batchClassmates: [],
-        date: today
+        date: today,
+        editStudent: false,
+        confirmationDelete: false
     }
 
     // componentDidMount() {
@@ -35,6 +39,16 @@ class StudentSpec extends Component {
         console.log(this.state)
         this.props.addRating(this.state)
         this.props.updateLastRating(this.state)
+                this.setState({return: true})
+    }
+    
+    handleEditSubmit = (edit) => {
+        console.log(this.state.currentStudent.id)
+        this.props.editStudent(edit.firstName, edit.lastName, edit.pictureUrl, this.state.currentStudent.id)
+        this.setState({
+            editStudent: false,
+            return: true
+        })
 	}
 
 	handleChange = (event) => {
@@ -57,14 +71,13 @@ class StudentSpec extends Component {
     // }
 
     async componentDidMount() {
-        let students = []
+        // let students = []
         let totalRatings = []
         try {
             let currentStudentResult = await request.get(`${baseUrl}/students/${this.props.match.params.id}`)
             this.setState({currentStudent: currentStudentResult.body})
             let ratings = await request.get(`${baseUrl}/ratings`)
-            console.log(ratings)
-            ratings.body.map(rating => {
+            ratings.body.forEach(rating => {
                 if (currentStudentResult && this.state.currentStudent.id === rating.studentId) {
                     totalRatings.push(rating)
                 }
@@ -80,7 +93,7 @@ class StudentSpec extends Component {
             console.log('Error: ', e)
         }
         if (this.state.totalRatings) {
-            this.state.totalRatings.map(rating => {
+            this.state.totalRatings.forEach(rating => {
                 if (rating.date === today) {
                     this.setState({ratingOfTheDay: true})
                 }
@@ -105,15 +118,48 @@ class StudentSpec extends Component {
         }
     }
 
-    render() {
+    showEditStudent = () => {
+        this.setState({editStudent: true})
+    }
 
+    deleteStudentCheck = () => {
+        this.setState({confirmationDelete: true})
+    }
+
+    deleteStudentConfirmation = () => {
+        this.props.deleteStudent(this.state.currentStudent.id)
+        this.setState({return: true})
+    }
+
+    render() {
+        console.log(this.state)
         const colors = ['Red', 'Yellow', 'Green']
         const tenRatings = this.showTenRatings()
+
+        if (this.state.return) return (
+			<Redirect to={`/batch/${this.state.currentStudent.batchId}`} />
+        )
+
+        if (!this.props.authenticated) return (
+			<Redirect to="/login" />
+        )
+
         return (
             <div className='student-page'>
                 {this.state.currentStudent &&
                 <div className='student-header'>
-                    <Link to={`/batch/${this.state.currentStudent.batchId}`}><h1>Batch #{this.state.currentStudent.batchId}</h1></Link>
+                    <div>
+                        <Link to={`/batch/${this.state.currentStudent.batchId}`}><h1>Batch #{this.state.currentStudent.batchId}</h1></Link>
+                        {this.state.editStudent !== true && <button onClick={this.showEditStudent}>Edit student</button>}
+                        {this.state.editStudent === true && <AddStudent type={'Edit'} onSubmit={this.handleEditSubmit}/>}
+                        {!this.state.confirmationDelete && 
+                        <button onClick={() => this.deleteStudentCheck()}>Delete student</button>}
+                        {this.state.confirmationDelete &&
+                        <div>
+                            <h3>Are you sure you want to delete this student?</h3>
+                            <button onClick={() => this.deleteStudentConfirmation()}>Yes, I want to delete this student</button>
+                        </div>}
+                    </div>
                     <div>
                         <h2>{this.state.currentStudent.firstName}</h2>
                         <h2>{this.state.currentStudent.lastName}</h2>
@@ -125,7 +171,7 @@ class StudentSpec extends Component {
                     <div>
                         <h3>Ten latest ratings</h3>
                         {tenRatings.map(rating => (
-                            <Link to={`/ratings/${rating.id}`}>
+                            <Link key={`rating-history-${rating.id}`} to={`/ratings/${rating.id}`}>
                                 <div className={`rating-${rating.color}`}>
                                     {/* <h4>{rating.remark}</h4> */}
                                 </div>
@@ -166,4 +212,8 @@ class StudentSpec extends Component {
     }
 }
 
-export default connect(null, {addRating, updateLastRating})(StudentSpec)
+const mapStateToProps = state => ({
+        authenticated: state.currentUser !== null,
+    })
+
+export default connect(mapStateToProps, {addRating, updateLastRating, editStudent, deleteStudent})(StudentSpec)

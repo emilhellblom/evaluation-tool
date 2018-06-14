@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
-import {Redirect, Link} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 export default class BatchList extends Component {
 
     studentCalc = (batch, studentList) => {
 
         const students = []
-        studentList.map(student => {
+        studentList.forEach(student => {
             if (student.batchId === batch.batchId) students.push(student.id)
         })
         return students.length

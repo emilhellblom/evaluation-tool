@@ -41,6 +41,12 @@ class Rating extends Component {
     render() {
         console.log(this.state)
         const colors = ['Red', 'Yellow', 'Green']
+
+
+        if (!this.props.authenticated) return (
+			<Redirect to="/login" />
+        )
+
         return (
             <div>
                 {this.state.rating && 
@@ -84,5 +90,8 @@ class Rating extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+        authenticated: state.currentUser !== null,
+    })
 
-export default connect(null, {updateRating})(Rating)
+export default connect(mapStateToProps, {updateRating})(Rating)

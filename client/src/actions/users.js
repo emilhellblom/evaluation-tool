@@ -1,6 +1,6 @@
 import * as request from 'superagent'
 import {baseUrl} from '../constants'
-import {isExpired} from '../jwt'
+// import {isExpired} from '../jwt'
 
 // export const ADD_USER = 'ADD_USER'
 // export const UPDATE_USER = 'UPDATE_USER'
