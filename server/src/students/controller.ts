@@ -1,4 +1,4 @@
-import { JsonController, Post, Param, Get, Body, Put, Authorized } from 'routing-controllers'
+import { JsonController, Post, Param, Get, Body, Put, Delete, Authorized } from 'routing-controllers'
 import Student from './entity';
 
 @JsonController()
@@ -16,10 +16,16 @@ export default class StudentController {
       @Param('id') id: number,
       @Body() update: Partial<Student>
     ) {
-      const student = await Student.findOneById(id)
-      console.log('Does anything happen here???????// sdgsd/g/sdg/sd/gs/dg/')
-      student.lastRating = update.lastRating
-      return student.save()
+        const student = await Student.findOneById(id)
+            if (update.lastRating) {
+                student.lastRating = update.lastRating
+                return student.save()
+            } else {
+                student.firstName = update.firstName
+                student.lastName = update.lastName
+                student.picture = update.picture
+                return student.save()
+            }
     }
 
     // @Authorized()
@@ -34,5 +40,13 @@ export default class StudentController {
     @Get('/students')
     allStudents() {
         return Student.find()
+    }
+
+    @Delete('/students/:id([0-9]+)')
+    deleteStudent(
+        @Param('id') id: number
+    ) {
+        console.log(id)
+        return Student.removeById(id)
     }
 }

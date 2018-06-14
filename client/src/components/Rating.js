@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
-import './BatchSpec.css'
+import './StudentSpec.css'
+import './Rating.css'
 import * as request from 'superagent'
 import {baseUrl} from '../constants'
 import {updateRating} from '../actions/ratings'
@@ -41,42 +42,53 @@ class Rating extends Component {
     render() {
         console.log(this.state)
         const colors = ['Red', 'Yellow', 'Green']
+
+
+        if (!this.props.authenticated) return (
+			<Redirect to="/login" />
+        )
+
         return (
             <div>
-                {this.state.rating && 
-                    <Link to={`/students/${this.state.rating.studentId}`}><h1>Student #{this.state.rating.studentId}</h1></Link>
-                }
-
-                {this.state.rating && 
-                    <div>
-                        <h2>{this.state.rating.remark}</h2>
-                        <h3>{this.state.rating.date}</h3>
-                        <div className={`rating-${this.state.rating.color}`}></div>
+                <div className='rating-header'>
+                    <div className='student-id'>
+                        {this.state.rating && 
+                            <Link to={`/students/${this.state.rating.studentId}`}><h1>Student #{this.state.rating.studentId}</h1></Link>
+                        }
                     </div>
-                }
-                <div className='alter-rating-div'>
-                    <form onSubmit={this.handleSubmit}>
-                        <div>
+                    {this.state.rating && 
+                        <div className='rating-specs'>
+                            <h2 className='rating-remark'>{this.state.rating.remark}</h2>
+                            <h3 className='rating-date'>{this.state.rating.date}</h3>
+                            <div className={`rating-${this.state.rating.color}`}></div>
+                        </div>
+                    }
+                </div>
+                <div className='evaluation-div'>
+                    <form className='evaluation-form' onSubmit={this.handleSubmit}>
+                        <div className='date-field'>
                             <label htmlFor="date">Date</label>
                             <input type="date" name="date" id="date" value={
                                 this.state.date || ''
                             } onChange={ this.handleChange } />
                         </div>
-
-                        <div>
-                            <label htmlFor="text">Remarks</label>
-                            <input type="text" name="text" id="text" value={
-                                this.state.text || ''
-                            } onChange={ this.handleChange } />
-                        </div>
-
-                        {colors.map(color => (
-                            <div key={`Rating: ${color}`}>
-                                <label htmlFor="rating">{color}</label>
-                                <input type="radio" name="color" id={color} checked={this.state.color} onChange={() => this.handleOptionChange(color)} />
+                        <div className='input-fields'>
+                            <div className='remarks-field'>
+                                <label htmlFor="text">Remarks</label>
+                                <input type="text" name="text" id="text" value={
+                                    this.state.text || ''
+                                } onChange={ this.handleChange } />
                             </div>
-                        ))}
-                        <button type="submit">Save</button>                    
+
+                            <div className='color-picker'>
+                                {colors.map(color => (
+                                    <div className={`pick-${color}`} key={`Rating: ${color}`}>
+                                        <input type="radio" name="color" id={color} checked={this.state.color} onChange={() => this.handleOptionChange(color)} />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <button className='save-button' type="submit">Save</button>                    
                     </form>
                 </div>
             </div>
@@ -84,5 +96,8 @@ class Rating extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+        authenticated: state.currentUser !== null,
+    })
 
-export default connect(null, {updateRating})(Rating)
+export default connect(mapStateToProps, {updateRating})(Rating)

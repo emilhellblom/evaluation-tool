@@ -17,6 +17,7 @@ export default class AddStudent extends Component {
     }
 
     render() {
+        const {type} = this.props
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
@@ -40,7 +41,7 @@ export default class AddStudent extends Component {
                             this.state.pictureUrl || ''
                         } onChange={ this.handleChange } />
                     </div>
-                    <button type="submit">Add Student</button>
+                    <button type="submit">{type} Student</button>
                 </form>
             </div>
         )

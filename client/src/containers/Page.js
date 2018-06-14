@@ -6,6 +6,7 @@ import AddBatch from '../components/AddBatch'
 import {addBatch} from '../actions/batches'
 import * as request from 'superagent'
 import {baseUrl} from '../constants'
+import './Page.css'
 
 class Page extends Component {
     state = {
@@ -21,12 +22,6 @@ class Page extends Component {
         this.setState({addOption: true})
     }
 
-    // componentDidMount() {
-    //     request
-    //     .get(`${baseUrl}/batches`)
-    //     .then(result => this.setState({batches: result.body}))
-    // }
-
     async componentDidMount() {
         const students = await request.get(`${baseUrl}/students`)
         const batches = await request.get(`${baseUrl}/batches`)
@@ -40,15 +35,14 @@ class Page extends Component {
 
     render() {
         console.log(this.state)
-        const {authenticated} = this.props
 
-        if (!authenticated) return (
+        if (!this.props.authenticated) return (
 			<Redirect to="/login" />
         )
         
         return (
-            <div>
-                <h1>Overview</h1>
+            <div className='batch-overview'>
+                <h1 className='overview-header'>Overview</h1>
                 <div>
                     {this.state.batches && <BatchList batchList={this.state.batches} studentList={this.state.students} />}
                 </div>

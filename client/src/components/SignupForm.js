@@ -28,14 +28,14 @@ export default class SignupForm extends PureComponent {
 
 				<div>
 					<label htmlFor="firstName">First name</label>
-					<input type="firstName" name="firstName" id="firstName" value={
+					<input type="text" name="firstName" id="firstName" value={
 						this.state.firstName || ''
 					} onChange={ this.handleChange } />
 				</div>
 
 				<div>
 					<label htmlFor="lastName">Last Name</label>
-					<input type="lastName" name="lastName" id="lastName" value={
+					<input type="text" name="lastName" id="lastName" value={
 						this.state.lastName || ''
 					} onChange={ this.handleChange } />
 				</div>
