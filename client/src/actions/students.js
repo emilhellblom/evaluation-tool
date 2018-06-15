@@ -11,7 +11,6 @@ export const DELETE_STUDENT_SUCCESS = 'DELETE_STUDENT_SUCCESS'
 export const DELETE_STUDENT_FAILED = 'DELETE_STUDENT_FAILED'
 
 export const addStudent = (firstName, lastName, picture, batchId) => (dispatch) => {
-    console.log(typeof batchId)
 	request
 		.post(`${baseUrl}/students`)
 		.send({ firstName, lastName, picture, batchId, lastRating: null })
