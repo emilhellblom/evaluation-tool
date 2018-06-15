@@ -17,7 +17,7 @@ export default class RatingController {
       @Body() update: Partial<Rating>
     ) {
       const rating = await Rating.findOneById(id)
-      console.log('Does anything happen here???????// sdgsd/g/sdg/sd/gs/dg/')
+
       rating.color = update.color
       rating.remark = update.remark
       rating.date = update.date
