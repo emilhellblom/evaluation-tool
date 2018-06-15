@@ -1,0 +1,83 @@
+.latest-color-Red {
+    width: 15px;
+    height: 15px;
+    background-color: red;
+}
+
+.latest-color-Yellow {
+    width: 15px;
+    height: 15px;
+    background-color: yellow;
+}
+
+.latest-color-Green {
+    width: 15px;
+    height: 15px;
+    background-color: green;
+}
+
+.color-standings {
+    display: flex;
+    width: 50vw;
+}
+
+.red-part-bar, .yellow-part-bar, .green-part-bar {
+    height: 20px;
+}
+
+.red-part-bar {
+    background-color: red;
+}
+
+.yellow-part-bar {
+    background-color: yellow;
+}
+
+.green-part-bar {
+    background-color: green;
+}
+
+.batch-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.student-list {
+    display: flex;
+    width: 90vw;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0;
+}
+
+.student-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    width: 16vw;
+    height: 35vh;
+    margin: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 5px 5px 5px grey;
+}
+
+.student-card-image {
+    height: 130px;
+    width: 90px;
+}
+
+.student-card-name {
+    font-size: 100%;
+    margin: 5px;
+}
+
+.student-card-message {
+    font-size: 80%;
+    text-align: center;
+    margin: 0;
+}

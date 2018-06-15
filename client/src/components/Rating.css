@@ -1,0 +1,20 @@
+.rating-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.rating-specs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40vw;
+}
+
+.rating-remark {
+    font-size: 170%;
+}
+
+.rating-date {
+    font-size: 120%;
+}
