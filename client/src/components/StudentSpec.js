@@ -48,7 +48,6 @@ class StudentSpec extends Component {
     }
     
     handleEditSubmit = (edit) => {
-        console.log(this.state.currentStudent.id)
         this.props.editStudent(edit.firstName, edit.lastName, edit.pictureUrl, this.state.currentStudent.id)
         this.setState({
             editStudent: false,
@@ -58,7 +57,6 @@ class StudentSpec extends Component {
 
 	handleChange = (event) => {
         const {name, value} = event.target
-        console.log(name, value)
 
         if (this.state.dateOfRatings.includes(value)) {
             this.setState({
@@ -74,7 +72,6 @@ class StudentSpec extends Component {
     }
 
     handleOptionChange = color => {
-        console.log(color)
         this.setState({ colorRating: color })
     }
 
@@ -150,9 +147,9 @@ class StudentSpec extends Component {
     }
 
     render() {
-        console.log(this.state)
         const colors = ['Red', 'Yellow', 'Green']
         const tenRatings = this.showTenRatings()
+        const {currentStudent, editStudent, confirmationDelete, totalRatings, ratingOfTheDay} = this.state
 
         if (this.state.return) return (
 			<Redirect to={`/batch/${this.state.currentStudent.batchId}`} />
@@ -164,28 +161,28 @@ class StudentSpec extends Component {
 
         return (
             <div className='student-page'>
-                {this.state.currentStudent &&
+                {currentStudent &&
                 <div className='student-header'>
                     <div className='header-link-div'>
-                        <Link to={`/batch/${this.state.currentStudent.batchId}`}><h1>Batch #{this.state.currentStudent.batchId}</h1></Link>
-                        {this.state.editStudent !== true && <button onClick={this.showEditStudent}>Edit student</button>}
-                        {this.state.editStudent === true && <AddStudent type={'Edit'} onSubmit={this.handleEditSubmit}/>}
-                        {!this.state.confirmationDelete && 
+                        <Link to={`/batch/${currentStudent.batchId}`}><h1>Batch #{currentStudent.batchId}</h1></Link>
+                        {editStudent !== true && <button onClick={this.showEditStudent}>Edit student</button>}
+                        {editStudent === true && <AddStudent type={'Edit'} onSubmit={this.handleEditSubmit}/>}
+                        {!confirmationDelete && 
                         <button onClick={() => this.deleteStudentCheck()}>Delete student</button>}
-                        {this.state.confirmationDelete &&
+                        {confirmationDelete &&
                         <div>
                             <h3>Are you sure you want to delete this student?</h3>
                             <button onClick={() => this.deleteStudentConfirmation()}>Yes, I want to delete this student</button>
                         </div>}
                     </div>
                     <div>
-                        <h2>{this.state.currentStudent.firstName}</h2>
-                        <h2>{this.state.currentStudent.lastName}</h2>
+                        <h2>{currentStudent.firstName}</h2>
+                        <h2>{currentStudent.lastName}</h2>
                     </div>
-                    <img className='student-spec-img' src={this.state.currentStudent.picture}/>
+                    <img className='student-spec-img' src={currentStudent.picture}/>
                 </div>
                 }
-                {this.state.totalRatings && 
+                {totalRatings && 
                     <div className='student-ratings-div'>
                         <h3 className='student-ratings-header'>Ten latest ratings</h3>
                         <div className='student-ratings-bar'>
@@ -207,7 +204,7 @@ class StudentSpec extends Component {
                                     this.state.date || today
                                 } onChange={ this.handleChange } />
                             </div>
-                            {!this.state.ratingOfTheDay && 
+                            {!ratingOfTheDay && 
                                 <div className='input-fields'>
 
                                     <div className='remarks-field'>

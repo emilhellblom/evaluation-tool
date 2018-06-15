@@ -34,7 +34,6 @@ class Page extends Component {
 
 
     render() {
-        console.log(this.state)
 
         if (!this.props.authenticated) return (
 			<Redirect to="/login" />

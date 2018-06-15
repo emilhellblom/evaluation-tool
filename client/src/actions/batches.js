@@ -5,7 +5,6 @@ export const ADD_BATCH_SUCCESS = 'ADD_BATCH_SUCCESS'
 export const ADD_BATCH_FAILED = 'ADD_BATCH_FAILED'
 
 export const addBatch = (batchId, startDate, endDate) => (dispatch) => {
-    console.log(typeof batchId)
 	request
 		.post(`${baseUrl}/batches`)
 		.send({ batchId, startDate, endDate })

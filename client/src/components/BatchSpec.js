@@ -109,7 +109,7 @@ class BatchSpec extends Component {
         
         const getRandomStudent = (randomColor, students) => {
             const studentsWithRating = students.filter(student => student.lastRating === randomColor)
-            console.log(studentsWithRating)
+
             const randomStudent = studentsWithRating[rand(0, studentsWithRating.length-1).toFixed(0)]
             return randomStudent
         }
@@ -133,7 +133,6 @@ class BatchSpec extends Component {
             <Redirect to="/login" />
         )
 
-        console.log(this.state)
         const {randomStudent, ratings, students, currentBatch, addOption, percentages} = this.state
         return (
             <div className='batch-page'>

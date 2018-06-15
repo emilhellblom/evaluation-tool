@@ -8,12 +8,15 @@ import {Redirect, Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 
 class Rating extends Component {
-    state = {}
+    state = {
+        rating: null,
+        currentRating: null
+    }
 
     async componentDidMount() {
         const currentRating = this.props.match.params.id
         const result = await request.get(`${baseUrl}/ratings/${currentRating}`)
-        console.log(result)
+
         this.setState({
             rating: result.body,
             currentRating,
@@ -21,13 +24,11 @@ class Rating extends Component {
     }
 
     handleSubmit = (e) => {
-        console.log(this.state)
         this.props.updateRating(this.state)
 	}
 
 	handleChange = (event) => {
         const {name, value} = event.target
-        console.log(name, value)
 
         this.setState({
         [name]: value
@@ -35,13 +36,12 @@ class Rating extends Component {
     }
 
     handleOptionChange = color => {
-        console.log(color)
         this.setState({ colorRating: color })
     }
 
     render() {
-        console.log(this.state)
         const colors = ['Red', 'Yellow', 'Green']
+        const {rating} = this.state
 
 
         if (!this.props.authenticated) return (
@@ -52,15 +52,15 @@ class Rating extends Component {
             <div>
                 <div className='rating-header'>
                     <div className='student-id'>
-                        {this.state.rating && 
-                            <Link to={`/students/${this.state.rating.studentId}`}><h1>Student #{this.state.rating.studentId}</h1></Link>
+                        {rating && 
+                            <Link to={`/students/${rating.studentId}`}><h1>Student #{rating.studentId}</h1></Link>
                         }
                     </div>
-                    {this.state.rating && 
+                    {rating && 
                         <div className='rating-specs'>
-                            <h2 className='rating-remark'>{this.state.rating.remark}</h2>
-                            <h3 className='rating-date'>{this.state.rating.date}</h3>
-                            <div className={`rating-${this.state.rating.color}`}></div>
+                            <h2 className='rating-remark'>{rating.remark}</h2>
+                            <h3 className='rating-date'>{rating.date}</h3>
+                            <div className={`rating-${rating.color}`}></div>
                         </div>
                     }
                 </div>

@@ -7,9 +7,6 @@ export default class Rating extends BaseEntity {
     @PrimaryGeneratedColumn()
     id?: number
 
-    // @IsString()
-    // @MinLength(1)
-    // @MaxLength(1)
     @Column()
     studentId: number
 
@@ -19,8 +16,7 @@ export default class Rating extends BaseEntity {
     date: string
 
     @IsString()
-    @MinLength(2)
-    @Column('text')
+    @Column('text', {nullable:true})
     remark: string
 
     @IsString()

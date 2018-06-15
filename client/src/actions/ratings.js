@@ -7,11 +7,19 @@ export const UPDATE_RATING_SUCCESS = 'UPDATE_RATING_SUCCESS'
 export const UPDATE_RATING_FAILED = 'UPDATE_RATING_FAILED'
 
 export const addRating = (rating) => (dispatch) => {
-    const {date, text, colorRating, currentStudent} = rating
-    console.log(date, text, colorRating, typeof currentStudent.id)
+	const {date, text, colorRating, currentStudent} = rating
+
+	let remark
+
+	if (!text) {
+		remark = null
+	} else {
+		remark = text
+	}
+
 	request
 		.post(`${baseUrl}/ratings`)
-		.send({ date, remark: text, color: colorRating, studentId: currentStudent.id })
+		.send({ date, remark, color: colorRating, studentId: currentStudent.id })
 		.then(result => {
 			dispatch({
 				type: ADD_RATING_SUCCESS
@@ -55,11 +63,18 @@ export const updateLastRating = (state) => (dispatch) => {
 }
 
 export const updateRating = (state) => (dispatch) => {
-    const {colorRating, date, text, currentRating} = state
+	const {colorRating, date, text, currentRating} = state
+
+	let remark
+	if (!text) {
+		remark = null
+	} else {
+		remark = text
+	}
 
     request
         .put(`${baseUrl}/ratings/${currentRating}`)
-        .send({color: colorRating, date, remark: text})
+        .send({color: colorRating, date, remark})
 		.then(result => {
 			dispatch({
 				type: UPDATE_RATING_SUCCESS
